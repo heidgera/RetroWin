@@ -72,7 +72,7 @@ include([window.retroDir + 'windows.js'], function() {
           _this.runScript = document.createElement('script');
           _this.runScript.src = 'data/desktop/' + _this.name + '/winActs.js?' + time;
           _this.runScript.setAttribute('window', _this.name);
-          µ('head').appendChild(_this.runScript);
+          µ('head')[0].appendChild(_this.runScript);
         }
 
         _this.window.focus();
