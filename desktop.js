@@ -58,7 +58,7 @@ include([window.retroDir + 'windows.js'], function() {
       };
 
       _this.openWindow = function() {
-        _this.window = µ('win-dow[name=' + _this.name + ']');
+        _this.window = µ('win-dow[name=' + _this.name + ']')[0];
         if (_this.window == null) {
           _this.window = document.createElement('win-dow');
           _this.window.setAttribute('name', _this.name);
