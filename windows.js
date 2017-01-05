@@ -122,14 +122,14 @@ include([window.retroDir + 'menuItems.js'], function() {
           if (wins[i] != _this) {
             wins[i].focused = false;
             wins[i].style.zIndex = parseInt(wins[i].style.zIndex) - 1;
-            µ('.windowTitle', wins[i]).style.backgroundColor = '#777';
+            µ('.windowTitle', wins[i])[0].style.backgroundColor = '#777';
             wins[i].tray.className = 'trayButton button';
           }
         }
 
         _this.style.zIndex = wins.length - 1;
         _this.focused = true;
-        µ('.windowTitle', _this).style.backgroundColor = '#008';
+        µ('.windowTitle', _this)[0].style.backgroundColor = '#008';
         _this.tray.className = 'trayButton buttonActive';
       };
 
