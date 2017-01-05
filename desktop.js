@@ -48,7 +48,7 @@ include([window.retroDir + 'windows.js'], function() {
       if (_this.type != 'folder') title.textContent += '.' + _this.type;
 
       _this.select = function() {
-        if (µ('.iconSelect')) {
+        if (µ('.iconSelect')[0]) {
           µ('.iconSelect')[0].parentElement.selected = null;
           µ('.iconSelect')[0].className = '';
         }
