@@ -36,7 +36,7 @@ include([window.retroDir + 'windows.js'], function() {
 
       _this.content = null;
       ajax('data/desktop/' + _this.name + '/contents.html', function(xml) {
-        _this.content = µ('body', xml);
+        _this.content = µ('body', xml)[0];
       });
 
       var icon = µ('+img', _this);
