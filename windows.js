@@ -84,10 +84,10 @@ include([window.retroDir + 'menuItems.js'], function() {
 
       _this.close = function() {
         µ('#winTray').removeChild(_this.tray);
-        var origin = µ('eye-con[name=' + _this.name + ']');
+        var origin = µ('eye-con[name=' + _this.name + ']')[0];
 
         µ('head').removeChild(µ('script[window=' + _this.name + ']'));
-        var frameCont = _this.content.getElementsByClassName('frameContent')[0];
+        var frameCont = µ('.frameContent', _this.content)[0];
         var cont = _this.content.removeChild(frameCont, _this.content);
 
         _this.onClose(cont);
@@ -96,9 +96,9 @@ include([window.retroDir + 'menuItems.js'], function() {
       };
 
       _this.save = function() {
-        var node = _this.content.getElementsByClassName('frameContent')[0].cloneNode(true);
-        var origin = µ('eye-con[name=' + _this.name + ']');
-        var old = origin.content.getElementsByClassName('frameContent')[0];
+        var node = µ('.frameContent', _this.content)[0].cloneNode(true);
+        var origin = µ('eye-con[name=' + _this.name + ']')[0];
+        var old = µ('.frameContent', origin.content)[0];
         old.parentElement.insertBefore(node, old);
         old.parentElement.removeChild(old);
       };

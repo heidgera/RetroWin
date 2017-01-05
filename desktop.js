@@ -67,7 +67,7 @@ include([window.retroDir + 'windows.js'], function() {
           //_this.window = temp.cloneNode(true);
           µ('#windows').appendChild(_this.window);
 
-          var node = _this.content.getElementsByClassName('frameContent')[0].cloneNode(true);
+          var node = µ('.frameContent', _this.content)[0].cloneNode(true);
           _this.window.content.appendChild(node);
           _this.runScript = document.createElement('script');
           _this.runScript.src = 'data/desktop/' + _this.name + '/winActs.js?' + time;
