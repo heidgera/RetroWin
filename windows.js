@@ -86,7 +86,7 @@ include([window.retroDir + 'menuItems.js'], function() {
         µ('#winTray').removeChild(_this.tray);
         var origin = µ('eye-con[name=' + _this.name + ']')[0];
 
-        µ('head').removeChild(µ('script[window=' + _this.name + ']'));
+        µ('head')[0].removeChild(µ('script[window=' + _this.name + ']')[0]);
         var frameCont = µ('.frameContent', _this.content)[0];
         var cont = _this.content.removeChild(frameCont, _this.content);
 
