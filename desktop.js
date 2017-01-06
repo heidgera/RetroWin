@@ -67,6 +67,8 @@ include([window.retroDir + 'windows.js'], function() {
           //_this.window = temp.cloneNode(true);
           µ('#windows').appendChild(_this.window);
 
+          console.log(_this.content);
+
           var node = µ('.frameContent', _this.content)[0].cloneNode(true);
           _this.window.content.appendChild(node);
           _this.runScript = document.createElement('script');

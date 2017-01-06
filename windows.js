@@ -90,7 +90,7 @@ include([window.retroDir + 'menuItems.js'], function() {
         var frameCont = µ('.frameContent', _this.content)[0];
         var cont = _this.content.removeChild(frameCont, _this.content);
 
-        //_this.onClose(cont);
+        _this.onClose(cont);
 
         _this.parentElement.removeChild(_this);
       };
@@ -117,7 +117,7 @@ include([window.retroDir + 'menuItems.js'], function() {
       };
 
       _this.focus = function() {
-        var wins = document.querySelectorAll('win-dow');
+        var wins = µ('win-dow');
         for (var i = 0; i < wins.length; i++) {
           if (wins[i] != _this) {
             wins[i].focused = false;
