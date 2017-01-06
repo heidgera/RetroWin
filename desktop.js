@@ -35,8 +35,10 @@ include([window.retroDir + 'windows.js'], function() {
       }
 
       _this.content = null;
+      _this.frameContent = null;
       ajax('data/desktop/' + _this.name + '/contents.html', function(xml) {
         _this.content = µ('body', xml)[0];
+        _this.frameContent = µ('.frameContent', _this.content)[0];
       });
 
       var icon = µ('+img', _this);
@@ -68,9 +70,9 @@ include([window.retroDir + 'windows.js'], function() {
           µ('#windows').appendChild(_this.window);
 
           console.log(_this.content);
-          console.log(_this.content.querySelectorAll('.frameContent')[0]);
+          console.log(_this.frameContent);
 
-          var node = µ('.frameContent', _this.content)[0].cloneNode(true);
+          var node = _this.frameContent.cloneNode(true);
           _this.window.content.appendChild(node);
           _this.runScript = document.createElement('script');
           _this.runScript.src = 'data/desktop/' + _this.name + '/winActs.js?' + time;
