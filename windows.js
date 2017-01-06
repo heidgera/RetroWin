@@ -90,7 +90,7 @@ include([window.retroDir + 'menuItems.js'], function() {
         var frameCont = µ('.frameContent', _this.content)[0];
         var cont = _this.content.removeChild(frameCont, _this.content);
 
-        _this.onClose(cont);
+        //_this.onClose(cont);
 
         _this.parentElement.removeChild(_this);
       };
