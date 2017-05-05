@@ -52,8 +52,7 @@ if (!customElements.get('win-dow')) {
       closeWindow() {
         var _this = this;
         µ('#winTray').removeChild(_this.tray);
-        var origin = µ('eye-con[name=' + _this.name + ']');
-
+        var origin = µ('eye-con[name=' + _this.name + ']')[0];
         var frameCont = µ('.frameContent', _this.content)[0];
         var cont = _this.content.removeChild(frameCont, _this.content);
 
@@ -78,8 +77,6 @@ if (!customElements.get('win-dow')) {
           if (wins[i] != _this) {
             wins[i].focused = false;
             wins[i].style.zIndex = parseInt(wins[i].style.zIndex) - 1;
-
-            //µ('.windowTitle', wins[i]).style.backgroundColor = '#777';
             wins[i].className = 'inactive';
             wins[i].trayDot.className = 'inactive';
           }
