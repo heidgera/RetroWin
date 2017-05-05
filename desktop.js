@@ -57,7 +57,7 @@ if (!customElements.get('eye-con')) {
 
       select() {
         var _this = this;
-        var selected = µ('.iconSelect')[0];
+        var selected = µ('.iconSelect', this.parentElement)[0];
         if (selected) {
           selected.parentElement.selected = null;
           selected.className = '';

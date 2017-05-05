@@ -29,7 +29,8 @@ if(!window.StartMenu){
 
   µ('#loYes').onclick = function() {
     loDial.style.visibility = 'hidden';
-    login.logout();
+    //login.logout();
+    window.close();
   };
 
   µ('#loNo').onclick = function() {
