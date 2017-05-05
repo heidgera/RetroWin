@@ -1,90 +1,104 @@
-include([], function() {
+if (!window.MenuItem) {
+  console.log('loading menuItems');
+  class MenuItem extends HTMLElement{
+    constructor() {
+      super();
 
-  var menuItem = inheritFrom(HTMLElement, function() {
-    this.createdCallback = function() {
       var _this = this;
 
-      _this.item = µ('+div', _this);
+      this.attachShadow({ mode: 'open' });
+      _this.shadowRoot.innerHTML = '<style> @import "css/windowMenus.css"; </style>';
+
+      _this.item = µ('+div', _this.shadowRoot);
       _this.item.className = 'menuItem';
 
-      _this.entries = µ('+div', _this);
-      _this.entries.className = 'menuDropdown raise';
+      _this.entries = µ('+div', _this.shadowRoot);
+      _this.entries.className = 'menuDropdown';
+    }
 
-      _this.close = function() {
-        _this.entries.style.display = 'none';
-        _this.item.style.backgroundColor = 'initial';
-        _this.opened = false;
-      };
+    closeMenu() {
+      this.entries.style.display = 'none';
+      this.item.className = 'menuItem';
+      this.opened = false;
+    };
 
-      _this.open = function() {
-        _this.entries.style.display = 'block';
-        _this.item.style.backgroundColor = '#998';
-        _this.opened = true;
-      };
+    openMenu() {
+      this.entries.style.display = 'block';
+      this.item.className = 'menuItem open';
+      this.opened = true;
+    };
 
-      _this.item.onmousedown = function() {
+    addTitle(ttl) {
+      var _this = this;
+      _this.item.textContent = ttl;
+      _this.setAttribute('name', ttl);
+    };
+
+    addOption(name, callback) {
+      var _this = this;
+      var temp = µ('+div', _this.entries);
+      temp.className = 'menuEntry';
+      temp.textContent = name;
+      if (typeof callback == 'function') {
+        temp.onmousedown = function(e) {
+          this.press = true;
+        };
+
+        temp.onmouseup = function(e) {
+          if (this.press) {
+            callback();
+            _this.closeMenu();
+            this.press = false;
+          }
+        };
+
+        temp.onmouseout = function() {
+          if (this.press) this.press = false;
+        };
+      } else {
+        temp.className = 'menuEntry fade';
+      }
+
+      return temp;
+    };
+
+    addDivider() {
+      var div = µ('+div', _this.entries);
+      div.className = 'entryDivider';
+    };
+
+    connectedCallback() {
+      var _this = this;
+
+      _this.item.onmousedown = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         this.press = true;
       };
 
       _this.item.onmouseup = function() {
-        if (this.press && !_this.opened) _this.open();
-        else if (this.press) _this.close();
+        if (this.press && !_this.opened) _this.openMenu();
+        else if (this.press) _this.closeMenu();
       };
 
       _this.onmouseout = function(e) {
         if (_this.opened) {
-          if (~e.toElement.className.indexOf('menuEntry') ||
+          if (e.toElement.className.includes('menuEntry') ||
            e.toElement.className == 'entryDivider') return;
-          else if (e.toElement.className == 'menuItem') {
-            var next = e.toElement.parentElement;
-            _this.close();
-            next.open();
-          } else _this.close();
+          else if (e.toElement.tagName == 'MENU-ITEM') {
+            var next = e.toElement;
+            _this.closeMenu();
+            next.openMenu();
+          } //else _this.close();
         }
       };
-
-      this.addTitle = function(ttl) {
-        _this.item.textContent = ttl;
-        _this.setAttribute('name', ttl);
-      };
-
-      this.addOption = function(name, callback) {
-        var temp = µ('+div', _this.entries);
-        temp.className = 'menuEntry';
-        temp.textContent = name;
-        if (typeof callback == 'function') {
-          temp.onmousedown = function(e) {
-            this.press = true;
-          };
-
-          temp.onmouseup = function(e) {
-            if (this.press) {
-              callback();
-              _this.close();
-              this.press = false;
-            }
-          };
-
-          temp.onmouseout = function() {
-            if (this.press) this.press = false;
-          };
-        } else {
-          temp.className = 'menuEntry fade';
-        }
-
-        return temp;
-      };
-
-      this.addDivider = function() {
-        var div = µ('+div', _this.entries);
-        div.className = 'entryDivider';
-      };
     };
+  }
 
-    this.attachedCallback = function() {
+  //window.MenuItem = document.registerElement('menu-item', menuItem);
 
-    };
-  });
+  customElements.define('menu-item', MenuItem);
+  window.MenuItem = true;
+}
 
-  document.registerElement('menu-item', menuItem);
-});
+exports.menuItem = window.MenuItem;

@@ -1,27 +1,30 @@
-include([], function() {
+if(!window.StartMenu){
   var start = µ('#start');
+  var icon = µ('#startIcon');
   var menu = µ('#startMenu');
   var loDial = µ('#logOutDialog');
+  var contact = µ('#contact');
 
   start.open = function() {
     start.opened = true;
-    start.className = 'pressed';
+    icon.className = 'pressed';
     menu.style.visibility = 'visible';
   };
 
   start.close = function() {
     start.opened = false;
-    start.className = '';
+    icon.className = '';
     menu.style.visibility = 'hidden';
   };
 
-  start.onclick = function(e) {
+  icon.onclick = function(e) {
+    e.stopPropagation();
     if (!start.opened) start.open();
     else start.close();
   };
 
   menu.onclick = function(e) {
-    loDial.style.visibility = 'visible';
+    //loDial.style.visibility = 'visible';
   };
 
   µ('#loYes').onclick = function() {
@@ -33,4 +36,7 @@ include([], function() {
     loDial.style.visibility = 'hidden';
   };
 
-});
+  window.StartMenu = true;
+}
+
+exports.startMenu = window.StartMenu;

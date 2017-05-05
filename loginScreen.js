@@ -1,4 +1,5 @@
-include([], function() {
+
+if (!window.LoginScreen) {
   var login = µ('#login');
   login.user = µ('|>user', login);
   login.pass = µ('|>pass', login);
@@ -76,4 +77,8 @@ include([], function() {
       default:
     }
   };
-});
+
+  window.LoginScreen = true;
+}
+
+exports.loginScreen = window.LoginScreen;
