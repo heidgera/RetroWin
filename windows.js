@@ -38,12 +38,12 @@ if (!customElements.get('win-dow')) {
 
         //ttlBar.style.backgroundColor = '#777';
         _this.trayDot.className = 'inactive';
-        _this.style.display = 'none';
+        _this.setAttribute('minimized','');
         _this.hidden = true;
       }
 
       show() {
-        this.style.display = 'flex';
+        this.removeAttribute('minimized');
         this.hidden = true;
       }
 
