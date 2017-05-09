@@ -1,4 +1,4 @@
-if(!window.StartMenu){
+if (!window.StartMenu) {
   var start = µ('#start');
   var icon = µ('#startIcon');
   var menu = µ('#startMenu');
@@ -29,6 +29,7 @@ if(!window.StartMenu){
 
   µ('#loYes').onclick = function() {
     loDial.style.visibility = 'hidden';
+
     //login.logout();
     window.close();
   };
