@@ -38,13 +38,22 @@ if (!customElements.get('win-dow')) {
 
         //ttlBar.style.backgroundColor = '#777';
         _this.trayDot.className = 'inactive';
-        _this.setAttribute('minimized','');
+        _this.setAttribute('minimized', '');
         _this.hidden = true;
       }
 
       show() {
         this.removeAttribute('minimized');
-        this.hidden = true;
+        this.hidden = false;
+      }
+
+      set minimized(val) {
+        if (val) this.hide();
+        else this.show();
+      }
+
+      get minimized() {
+        return (typeof this.getAttribute('minimized') === 'string');
       }
 
       onClose(cont) {}
@@ -86,8 +95,12 @@ if (!customElements.get('win-dow')) {
         _this.focused = true;
 
         //µ('.windowTitle', _this).style.backgroundColor = '#008';
-        _this.className = 'active';
-        _this.trayDot.className = 'active';
+        if (_this.minimized) _this.show();
+        else {
+          _this.className = 'active';
+          _this.trayDot.className = 'active';
+        }
+
       }
 
       attributeChangedCallback(attr, oldVal, newVal) {
@@ -101,8 +114,18 @@ if (!customElements.get('win-dow')) {
       connectedCallback() {
         var _this = this;
 
-        _this.style.left = newPos.x + 'px';
-        _this.style.top = newPos.y + 'px';
+        var updateCSSVar = (name, val)=> {
+          _this.style.removeProperty(name);
+          _this.style.setProperty(name, val);
+        };
+
+        _this.updatePosition = (newx, newy)=> {
+          updateCSSVar('--xpos', newx + 'px');
+          updateCSSVar('--ypos', newy + 'px');
+        };
+
+        _this.updatePosition(newPos.x, newPos.y);
+
         newPos.x = (newPos.x + 30) % 200;
         newPos.y = (newPos.y + 20) % 200;
 
@@ -142,9 +165,9 @@ if (!customElements.get('win-dow')) {
         this.foot = µ('+div', _this.root);
         this.foot.className = 'winFoot';
 
-        this.resize = µ('+img', this.foot);
-        this.resize.className = 'winResize';
-        this.resize.src = 'img/resize.png';
+        this.resizeImg = µ('+img', this.foot);
+        this.resizeImg.className = 'winResize';
+        this.resizeImg.src = 'img/resize.png';
 
         _this.tray = µ('+div', µ('#winTray'));
         _this.tray.className = 'trayButton';
@@ -157,11 +180,17 @@ if (!customElements.get('win-dow')) {
           this.press = true;
         };
 
+        _this.addEventListener('transitionend', ()=> {
+          if (!_this.minimized) {
+            _this.className = 'active';
+            _this.trayDot.className = 'active';
+          }
+        });
+
         _this.tray.onmouseup = function(e) {
           if (_this.focused) _this.hide();
           else {
-            if (_this.hidden) _this.show();
-            _this.focus();
+            _this.focus();//if (_this.hidden) _this.show();
           }
         };
 
@@ -195,8 +224,7 @@ if (!customElements.get('win-dow')) {
 
         _this.drag = function(e) {
           if (_this.dragging) {
-            _this.style.left = e.clientX - _this.mouse.x + 'px';
-            _this.style.top = (e.clientY - _this.mouse.y) + 'px';
+            _this.updatePosition(e.clientX - _this.mouse.x, e.clientY - _this.mouse.y);
           } else if (_this.resizing) {
             _this.changeSize(e.clientX + _this.mouse.x, e.clientY + _this.mouse.y);
           }
@@ -207,8 +235,9 @@ if (!customElements.get('win-dow')) {
           dt.dragged = null;
         };
 
-        _this.resize.onmousedown = function(e) {
-          e.preventDefault();
+        _this.content.onmouseup = _this.release;
+
+        _this.resizeImg.onmousedown = function(e) {
           _this.resizing = true;
           dt.dragged = _this;
           var rect = _this.getBoundingClientRect();
@@ -216,7 +245,6 @@ if (!customElements.get('win-dow')) {
             x: (rect.right - e.clientX) - rect.left,
             y: (rect.bottom - e.clientY) - rect.top,
           };
-          console.log(_this.mouse);
         };
 
         _this.min.onmousedown = function(e) {
