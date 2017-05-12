@@ -1,4 +1,4 @@
-if (!window.MenuItem) {
+if (!customElements.get('menu-item')) {
   console.log('loading menuItems');
   class MenuItem extends HTMLElement{
     constructor() {
@@ -98,7 +98,7 @@ if (!window.MenuItem) {
   //window.MenuItem = document.registerElement('menu-item', menuItem);
 
   customElements.define('menu-item', MenuItem);
-  window.MenuItem = true;
+  exports.menuItem = MenuItem;
+} else {
+  exports.menuItem = customElements.get('menu-item');
 }
-
-exports.menuItem = window.MenuItem;
