@@ -96,6 +96,16 @@ if (!customElements.get('eye-con')) {
           _this.press = true;
         };
 
+        _this.ontouchstart = (e)=> {
+          e.preventDefault();
+          _this.touch = true;
+        };
+
+        _this.ontouchend = (e)=> {
+          e.preventDefault();
+          if (_this.touch) _this.openWindow();
+        };
+
         _this.onmouseup = (e)=> {
           if (_this.press) {
             if (_this.clickedOnce) _this.openWindow();
