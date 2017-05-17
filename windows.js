@@ -135,45 +135,47 @@ if (!customElements.get('win-dow')) {
 
         _this.className = 'active';
 
-        _this.root = this.attachShadow({ mode: 'open' });
-        _this.root.innerHTML = '<style> @import "css/window.css"; img{width:0}</style>';
+        if (!_this.shadowRoot) {
+          _this.root = this.attachShadow({ mode: 'open' });
+          _this.root.innerHTML = '<style> @import "css/window.css"; img{width:0}</style>';
 
-        var ttlBar = µ('+div', _this.root);
-        ttlBar.className = 'windowTitle';
+          var ttlBar = µ('+div', _this.root);
+          ttlBar.className = 'windowTitle';
 
-        this.icon = µ('+img', ttlBar);
-        this.icon.src = 'data/desktop/' + _this.name + '/icon.png';
+          this.icon = µ('+img', ttlBar);
+          this.icon.src = `data/desktop/${_this.name}/icon.png`;
 
-        this.windowTitle = µ('+div', ttlBar);
-        this.windowTitle.className = 'winTitle';
-        this.windowTitle.textContent = _this.name.replace(/_/g, ' ');
+          this.windowTitle = µ('+div', ttlBar);
+          this.windowTitle.className = 'winTitle';
+          this.windowTitle.textContent = _this.name.replace(/_/g, ' ');
 
-        this.min = µ('+div', ttlBar);
-        this.min.className = 'winMin winButton';
-        _this.closeBut = µ('+div', ttlBar);
-        _this.closeBut.className = 'winClose winButton';
+          this.min = µ('+div', ttlBar);
+          this.min.className = 'winMin winButton';
+          _this.closeBut = µ('+div', ttlBar);
+          _this.closeBut.className = 'winClose winButton';
 
-        //var div = µ('+div', this);
-        //div.className = 'entryDivider';
+          //var div = µ('+div', this);
+          //div.className = 'entryDivider';
 
-        this.menuBar = µ('+div', _this.root);
-        this.menuBar.className = 'winMenu';
+          this.menuBar = µ('+div', _this.root);
+          this.menuBar.className = 'winMenu';
 
-        _this.content = µ('+div', _this.root);
-        _this.content.className = 'winContent';
+          _this.content = µ('+div', _this.root);
+          _this.content.className = 'winContent';
 
-        this.foot = µ('+div', _this.root);
-        this.foot.className = 'winFoot';
+          this.foot = µ('+div', _this.root);
+          this.foot.className = 'winFoot';
 
-        this.resizeImg = µ('+img', this.foot);
-        this.resizeImg.className = 'winResize';
-        this.resizeImg.src = 'img/resize.png';
+          this.resizeImg = µ('+img', this.foot);
+          this.resizeImg.className = 'winResize';
+          this.resizeImg.src = 'img/resize.png';
 
-        _this.tray = µ('+div', µ('#winTray'));
-        _this.tray.className = 'trayButton';
-        _this.tray.appendChild(this.icon.cloneNode(true));
-        _this.trayDot = µ('+div', _this.tray);
-        _this.trayDot.className = 'active';
+          _this.tray = µ('+div', µ('#winTray'));
+          _this.tray.className = 'trayButton';
+          _this.tray.appendChild(this.icon.cloneNode(true));
+          _this.trayDot = µ('+div', _this.tray);
+          _this.trayDot.className = 'active';
+        }
 
         _this.tray.onmousedown = function(e) {
           e.preventDefault();
